@@ -13,7 +13,7 @@ const startPlayerDisplay = document.getElementById("player-name-display")
 const tasks = ["Namen mit A", "Namen mit B", "Namen mit C"]
 let playerList =[]
 let playerCounter = 0
-let roundCounter = 6
+let roundCounter = 0
 
 class Player{
     constructor(name, minusPoints = 0, identifier){
@@ -64,6 +64,9 @@ function removeContent(){
 }
 
 function displayTask(){
+    let roundTime = fetchRoundTime()
+    removeContent()
+    createSound("click-sound.mp3", "ticking-sound")
     let task = fetchTasks()
     let taskDescription = document.createElement("h3")
     taskDescription.innerText = task
@@ -72,6 +75,14 @@ function displayTask(){
     startPlayerDisplay.style.justifyContent = "center"
     startPlayerDisplay.style.alignItems = "center"
     startPlayerDisplay.appendChild(taskDescription)
+    setTimeout(() => {
+        if (roundCounter < 8){
+            goToLosingScreen()
+        } else {
+            goToLosingScreen()
+        }
+    }, 1000 )
+    // roundTime * 1000 kommt statt den 1000 oben
 }
 
 function createSound(sound, id){
@@ -104,22 +115,21 @@ function displayPlayerNames(){
         playerNameButton.classList.add("player-name-button");
         playerNameButton.innerText = `${player.name}`;
         startPlayerDisplay.appendChild(playerNameButton)
-        roundCounter++
-
         playerNameButton.addEventListener("click", (e) => {
             player.minusPoints += 1;
-            removeContent;
+            readyForNextRound()
         })
     }
 }
 
 function showResults(){
+    removeContent()
     for (let i = 0; i < playerList.length; i++){
         const playerResults = document.createElement("p");
         const player = playerList[i];
         playerResults.classList.add("player-name-results");
         playerResults.innerText = `${player.name} : ${player.minusPoints}`;
-        startPlayerDisplay.appendChild(playerNameButton)
+        startPlayerDisplay.appendChild(playerResults)
 
         const endGameButton = document.createElement("button")
         endGameButton.classList.add("end-game-button")
@@ -137,20 +147,17 @@ function readyForNextRound(){
     startPlayerDisplay.appendChild(nextRoundQuestion)
 
     const nextRoundButton = document.createElement("button")
-    nextRoundQuestion.innerText = "Start"
-    startButtonSection.appendChild(nextRoundButton)
+    nextRoundButton.innerText = "Start"
+    nextRoundButton.id = "next-round-button"
+    startPlayerDisplay.appendChild(nextRoundButton)
 
     nextRoundButton.addEventListener("click", () => {
-        if (roundCounter < 8){
-            displayTask()
-        } else {
-            showResults()
-        }
-        
+        displayTask()
     })
 }
 
 function goToLosingScreen(){
+    roundCounter++
     removeContent();
     removeSound("ticking-sound");
     createSound("explosion.mp3", "explosion-sound");
@@ -164,17 +171,10 @@ function goToLosingScreen(){
 
 
 function startGame(){
-    if (playerList != 0){
-        let roundTime = fetchRoundTime()
+    if (playerList.length > 1){
         removeContent()
         displayTask()
-        createSound("click-sound.mp3", "ticking-sound")
-        setTimeout(() => {
-        goToLosingScreen()
-        }, roundTime * 1000)
-    }
-    
-    
+    } 
 }
 
 
