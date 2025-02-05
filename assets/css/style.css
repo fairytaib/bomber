@@ -101,5 +101,10 @@ button{
     font-size: 1.4rem;
     margin: 5px;
     padding: 3px;
+}
 
+.who-won{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }

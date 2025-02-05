@@ -29,7 +29,7 @@ function fetchTasks(){
 function fetchRoundTime(){
     const min = 12
     const max = 45
-    return randomTime = Math.floor(Math.random() * (max-min + 1)) + min
+    return Math.floor(Math.random() * (max-min + 1)) + min
 }
 
 function createPlayer(name){
@@ -108,11 +108,13 @@ function displayPlayerNames(){
 
 function goToLosingScreen(){
     removeContent();
-    removeSound("ticking-sound");  // Stoppt vorherigen Sound
+    removeSound("ticking-sound");
     createSound("explosion.mp3", "explosion-sound");
     const whoLostTitle = document.createElement("h2");
     whoLostTitle.innerText = "Wer hat verloren?";
+    startPlayerDisplay.classList.add("who-won")
     startPlayerDisplay.appendChild(whoLostTitle);
+    displayPlayerNames()
 }
 
 
@@ -122,8 +124,8 @@ function startGame(){
     displayTask()
     createSound("click-sound.mp3", "ticking-sound")
     setTimeout(() => {
-        goToLosingScreen
-    }, roundTime)
+        goToLosingScreen()
+    }, roundTime * 1000)
 }
 
 
@@ -151,5 +153,8 @@ addPlayerButton.addEventListener("click", () =>{
 })
 
 startButton.addEventListener("click", () => {
-    startGame()
+    while (roundCounter < 8){
+        startGame()
+    }
+    
 })
