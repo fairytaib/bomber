@@ -1,0 +1,105 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    font-family: "Bangers";
+}
+body{
+    background-color: black;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 5px;
+}
+
+h1{
+    padding: 15px;
+}
+
+button{
+    border-radius: 10px;
+}
+
+#outer-box{
+    border: 1px solid black;
+    background-color: aqua;
+    width: 95%;
+    height: 95%;
+
+}
+
+#player-name-display{
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    width: 90%;
+    height: 50%;
+    background-color: white;
+}
+
+#player-name-display-title{
+    color: rgba(0, 0, 0, 0.356);
+}
+
+#player-input{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 100%;
+}
+
+#player-name-input{
+    border-radius: 10px;
+    align-self: center;
+    width: 70%;
+    height: 30px;
+}
+
+#player-name-input::placeholder{
+    font-size: 1rem;
+    word-spacing: 3px;
+    padding-left: 10px;
+}
+
+#add-player-button{
+    font-size: 1.4rem;
+    align-self: center;
+    width: 70%;
+    height: 30px;
+}
+
+#start-button-section{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+#start-game-button{
+    align-self: center;
+    font-size: 1.4rem;
+    align-self: center;
+    width: 70%;
+    height: 30px;
+}
+
+.player-name-button{
+    font-size: 1.4rem;
+    margin: 5px;
+    padding: 3px;
+
+}
