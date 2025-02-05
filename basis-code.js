@@ -1,7 +1,8 @@
 const startPlayerDisplay = document.getElementById("player-name-display")
-const addPlayerButton = document.getElementById("player-name")
+const addPlayerButton = document.getElementById("add-player-button")
 const playernameInput = document.getElementById("player-name-input")
 const tasks = []
+let playerList =[]
 
 class Player{
     constructor(name, minusPoints = 0){
@@ -11,7 +12,7 @@ class Player{
 }
     
 function fetchTasks(){
-    let randomTask = Math.floor(Math.random() * tasks.length())
+    let randomTask = Math.floor(Math.random() * tasks.length)
     return tasks[randomTask]
 }
 
@@ -21,34 +22,27 @@ function fetchRoundTime(){
     return randomTime = Math.floor(Math.random() * (max-min + 1)) + min
 }
 
-let playerList =[]
+
 
 function createPlayer(name){
     const newplayer = new Player(name)
-    playerList.push(Player)
-    displayPlayer(newplayer.name)
+    playerList.push(newplayer)
+}
+
+
+function displayPlayer(){ 
+    const playerNameButton = document.createElement("button");
+    playerNameButton.classList.add("player-name-button");
+    playerNameButton.innerText = `${playerList[0].name} X`;
     playernameInput.value = ""
+    startPlayerDisplay.appendChild(playerNameButton)
 }
 
-
-function displayPlayer(player){
-    const playerName = document.createElement("button");
-    playerName.classList.add("player-name-button")
-    playerName.innerText = `${player} X`;
-    startPlayerDisplay.appendChild(playerName)
-
-}
-
-function iteratePlayers(player, range){
-    for (let step = 0; step < range; step++){
-
-    }
-}
- 
 
 addPlayerButton.addEventListener("click", () =>{
     const x  = playernameInput.value
     createPlayer(x)
+    displayPlayer()
 })
 
 
