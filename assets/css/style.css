@@ -103,6 +103,17 @@ button{
     padding: 3px;
 }
 
+.task-display{
+    font-size: 2.2rem;
+    font-weight: 200;
+}
+
+.show-task{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .who-won{
     display: flex;
     justify-content: center;

@@ -1,4 +1,4 @@
-const startPlayerDisplay = document.getElementById("player-name-display")
+
 const addPlayerButton = document.getElementById("add-player-button")
 const playerInputDisplay = document.getElementById("player-input")
 const startButtonSection = document.getElementById("start-button-section")
@@ -6,12 +6,14 @@ const playerNameInput = document.getElementById("player-name-input")
 const playerDisplayTitle = document.getElementById("player-name-display-title")
 const playerNameDisplay = document.getElementById("player-name-display")
 const startButton = document.getElementById("start-game-button")
+const startPlayerDisplay = document.getElementById("player-name-display")
+
 
 
 const tasks = ["Namen mit A", "Namen mit B", "Namen mit C"]
 let playerList =[]
 let playerCounter = 0
-let roundCounter = 0
+let roundCounter = 6
 
 class Player{
     constructor(name, minusPoints = 0, identifier){
@@ -63,7 +65,13 @@ function removeContent(){
 
 function displayTask(){
     let task = fetchTasks()
-    startPlayerDisplay.innerText = task
+    let taskDescription = document.createElement("h3")
+    taskDescription.innerText = task
+    taskDescription.classList.add("task-display")
+    startPlayerDisplay.style.display = "flex"
+    startPlayerDisplay.style.justifyContent = "center"
+    startPlayerDisplay.style.alignItems = "center"
+    startPlayerDisplay.appendChild(taskDescription)
 }
 
 function createSound(sound, id){
@@ -94,9 +102,9 @@ function displayPlayerNames(){
         const playerNameButton = document.createElement("button");
         const player = playerList[i];
         playerNameButton.classList.add("player-name-button");
-        playerNameButton.innerText = `${player.name} X`;
-        playerNameInput.value = ""
+        playerNameButton.innerText = `${player.name}`;
         startPlayerDisplay.appendChild(playerNameButton)
+        roundCounter++
 
         playerNameButton.addEventListener("click", (e) => {
             player.minusPoints += 1;
@@ -105,6 +113,42 @@ function displayPlayerNames(){
     }
 }
 
+function showResults(){
+    for (let i = 0; i < playerList.length; i++){
+        const playerResults = document.createElement("p");
+        const player = playerList[i];
+        playerResults.classList.add("player-name-results");
+        playerResults.innerText = `${player.name} : ${player.minusPoints}`;
+        startPlayerDisplay.appendChild(playerNameButton)
+
+        const endGameButton = document.createElement("button")
+        endGameButton.classList.add("end-game-button")
+        endGameButton.innerText = "Zurück zum Menü"
+        endGameButton.addEventListener("click", () => {
+            location.reload()
+        })
+    }
+}
+
+function readyForNextRound(){
+    removeContent()
+    const nextRoundQuestion = document.createElement("h3")
+    nextRoundQuestion.innerText = "Bereit für die nächste Runde?"
+    startPlayerDisplay.appendChild(nextRoundQuestion)
+
+    const nextRoundButton = document.createElement("button")
+    nextRoundQuestion.innerText = "Start"
+    startButtonSection.appendChild(nextRoundButton)
+
+    nextRoundButton.addEventListener("click", () => {
+        if (roundCounter < 8){
+            displayTask()
+        } else {
+            showResults()
+        }
+        
+    })
+}
 
 function goToLosingScreen(){
     removeContent();
@@ -115,17 +159,22 @@ function goToLosingScreen(){
     startPlayerDisplay.classList.add("who-won")
     startPlayerDisplay.appendChild(whoLostTitle);
     displayPlayerNames()
+    console.log(playerList)
 }
 
 
 function startGame(){
-    let roundTime = fetchRoundTime()
-    removeContent()
-    displayTask()
-    createSound("click-sound.mp3", "ticking-sound")
-    setTimeout(() => {
+    if (playerList != 0){
+        let roundTime = fetchRoundTime()
+        removeContent()
+        displayTask()
+        createSound("click-sound.mp3", "ticking-sound")
+        setTimeout(() => {
         goToLosingScreen()
-    }, roundTime * 1000)
+        }, roundTime * 1000)
+    }
+    
+    
 }
 
 
@@ -153,8 +202,7 @@ addPlayerButton.addEventListener("click", () =>{
 })
 
 startButton.addEventListener("click", () => {
-    while (roundCounter < 8){
-        startGame()
-    }
+    startGame()
+
     
 })
