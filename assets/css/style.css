@@ -30,6 +30,17 @@ h1{
 
 button{
     border-radius: 10px;
+    font-size: 1.4rem;
+    padding: 5px 0 5px 0;
+}
+
+h1{
+    font-weight: 500;
+}
+
+h3{
+    font-size: 1.5rem;
+    font-weight: 300;
 }
 
 #outer-box{
@@ -61,6 +72,7 @@ button{
     justify-content: center;
     gap: 5px;
     width: 100%;
+    min-height: 15%;
 }
 
 #player-name-input{
@@ -80,7 +92,7 @@ button{
     font-size: 1.4rem;
     align-self: center;
     width: 70%;
-    height: 30px;
+    height: 40px;
 }
 
 #start-button-section{
@@ -94,7 +106,7 @@ button{
     font-size: 1.4rem;
     align-self: center;
     width: 70%;
-    height: 30px;
+    height: 40px;
 }
 
 .player-name-button{
@@ -118,4 +130,12 @@ button{
     display: flex;
     justify-content: center;
     flex-direction: column;
+}
+
+#next-round-button{
+    font-size: 1.4rem;
+    align-self: center;
+    width: 33%;
+    height: 40px;
+    margin-top: 15px;
 }
