@@ -34,7 +34,7 @@ class Player {
 
 function fetchQuestionType() {
     const questionType = playerList[0].name
-    if (questionType === "kiffer" || questionType === "sexual") {
+    if (questionType === "NSFW") {
         return questions[questionType]
     } else {
         return questions["standard"]
