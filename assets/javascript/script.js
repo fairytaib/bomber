@@ -95,13 +95,13 @@ function displayTask() {
     startPlayerDisplay.style.alignItems = "center"
     startPlayerDisplay.appendChild(taskDescription)
     setTimeout(() => {
-        if (roundCounter < 8){
+        if (roundCounter < 8) {
             goToLosingScreen()
         } else {
             goToLosingScreen()
         }
-    }, 1000 )
-    // roundTime * 1000 kommt statt den 1000 oben
+    }, roundTime * 1000)
+    //  kommt statt den 1000 oben
 }
 
 function createSound(sound, id) {
@@ -192,11 +192,11 @@ function goToLosingScreen() {
 }
 
 
-function startGame(){
-    if (playerList.length > 1){
+function startGame() {
+    if (playerList.length > 1) {
         removeContent()
         displayTask()
-    } 
+    }
 }
 
 
@@ -225,6 +225,4 @@ addPlayerButton.addEventListener("click", () => {
 
 startButton.addEventListener("click", () => {
     startGame()
-
-
 })
