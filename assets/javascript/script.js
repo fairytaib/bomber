@@ -88,6 +88,7 @@ function displayTask() {
     let taskDescription = document.createElement("h3")
     taskDescription.innerText = task
     taskDescription.classList.add("task-display")
+    taskDescription.style.margin = "5px"
     taskDescription.style.textAlign = "center"
     startPlayerDisplay.style.display = "flex"
     startPlayerDisplay.style.justifyContent = "center"
