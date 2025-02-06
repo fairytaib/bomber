@@ -62,19 +62,17 @@ function createPlayer(name) {
 
 function displayPlayer() {
     const playerNameButton = document.createElement("button");
-    const player = playerList[playerList.length - 1]; // Letzten Spieler holen
+    const player = playerList[playerList.length - 1]; // Den gerade erstellten Spieler holen
     playerNameButton.classList.add("player-name-button");
     playerNameButton.innerText = `${player.name} X`;
-    playerNameInput.value = ""
-    startPlayerDisplay.appendChild(playerNameButton)
+    playerNameInput.value = "";
+    startPlayerDisplay.appendChild(playerNameButton);
 
     playerNameButton.addEventListener("click", (e) => {
-        const index = playerList.findIndex(p => p.identifier === player.identifier);
-        if (index > -1) {
-            playerList.splice(index, 1);
-        }
+        playerList = playerList.filter(p => p.identifier !== player.identifier); // ID zum Entfernen verwenden
         e.target.remove();
-    })
+        console.log(playerList);
+    });
 }
 
 
