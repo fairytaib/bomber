@@ -49,8 +49,8 @@ function fetchTasks() {
 }
 
 function fetchRoundTime() {
-    const min = 12
-    const max = 45
+    const min = 20
+    const max = 50
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
@@ -196,7 +196,7 @@ function goToLosingScreen() {
 
 
 function startGame() {
-    if (playerList.length > 1) {
+    if (playerList.length >= 1) {
         removeContent()
         displayTask()
     }
