@@ -1,4 +1,3 @@
-
 const addPlayerButton = document.getElementById("add-player-button")
 const playerInputDisplay = document.getElementById("player-input")
 const startButtonSection = document.getElementById("start-button-section")
@@ -8,38 +7,60 @@ const playerNameDisplay = document.getElementById("player-name-display")
 const startButton = document.getElementById("start-game-button")
 const startPlayerDisplay = document.getElementById("player-name-display")
 
-
-
-const tasks = ["Namen mit A", "Namen mit B", "Namen mit C"]
-let playerList =[]
+let playerList = []
 let playerCounter = 0
 let roundCounter = 6
+let questions;
 
-class Player{
-    constructor(name, minusPoints = 0, identifier){
+fetch('assets/json/questions.json')
+    .then(response => response.json())
+    .then(data => {
+        questions = data; // Fragen in der Variable speichern
+        // Hier kannst du dann den Rest deines Codes ausführen, der die Fragen benötigt.
+        // Zum Beispiel den Event-Listener für den "Add Player"-Button.
+    })
+    .catch(error => {
+        console.error('Fehler beim Laden der JSON-Datei:', error);
+    })
+
+
+
+class Player {
+    constructor(name, minusPoints = 0, identifier) {
         this.name = name
         this.minusPoints = minusPoints
         this.identifier = identifier
     }
 }
-    
-function fetchTasks(){
-    let randomTask = Math.floor(Math.random() * tasks.length)
-    return tasks[randomTask]
+
+function fetchQuestionType() {
+    const questionType = playerList[0].name
+    if (questionType === "kiffer" || questionType === "sexual") {
+        return questions[questionType]
+    } else {
+        return questions["standard"]
+    }
+
 }
 
-function fetchRoundTime(){
+function fetchTasks() {
+    const questionList = fetchQuestionType()
+    let randomTask = Math.floor(Math.random() * questionList.length)
+    return questionList[randomTask]
+}
+
+function fetchRoundTime() {
     const min = 12
     const max = 45
-    return Math.floor(Math.random() * (max-min + 1)) + min
+    return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-function createPlayer(name){
+function createPlayer(name) {
     const newPlayer = new Player(name, 0, playerCounter++);
     playerList.push(newPlayer);
 }
 
-function displayPlayer(){
+function displayPlayer() {
     const playerNameButton = document.createElement("button");
     const player = playerList[playerList.length - 1]; // Letzten Spieler holen
     playerNameButton.classList.add("player-name-button");
@@ -47,7 +68,7 @@ function displayPlayer(){
     playerNameInput.value = ""
     startPlayerDisplay.appendChild(playerNameButton)
 
-    playerNameButton.addEventListener("click", (e) => { 
+    playerNameButton.addEventListener("click", (e) => {
         const index = playerList.findIndex(p => p.identifier === player.identifier);
         if (index > -1) {
             playerList.splice(index, 1);
@@ -57,13 +78,13 @@ function displayPlayer(){
 }
 
 
-function removeContent(){
+function removeContent() {
     startPlayerDisplay.innerHTML = ""
     playerInputDisplay.innerHTML = ""
     startButtonSection.innerHTML = ""
 }
 
-function displayTask(){
+function displayTask() {
     let task = fetchTasks()
     let taskDescription = document.createElement("h3")
     taskDescription.innerText = task
@@ -74,7 +95,7 @@ function displayTask(){
     startPlayerDisplay.appendChild(taskDescription)
 }
 
-function createSound(sound, id){
+function createSound(sound, id) {
     const existingAudio = document.getElementById(id);
     if (!existingAudio) {
         const audio = document.createElement("audio");
@@ -82,7 +103,7 @@ function createSound(sound, id){
         audio.src = `assets/sounds/${sound}`;
         audio.autoplay = true;
         audio.volume = 0.25;
-        if (id === "ticking-sound"){
+        if (id === "ticking-sound") {
             audio.loop = true;
         } else {
             audio.loop = false;
@@ -92,13 +113,13 @@ function createSound(sound, id){
     }
 }
 
-function removeSound(){
+function removeSound() {
     const existingAudio = document.getElementById("ticking-sound");
     existingAudio.remove();
 }
 
-function displayPlayerNames(){
-    for (let i = 0; i < playerList.length; i++){
+function displayPlayerNames() {
+    for (let i = 0; i < playerList.length; i++) {
         const playerNameButton = document.createElement("button");
         const player = playerList[i];
         playerNameButton.classList.add("player-name-button");
@@ -113,8 +134,8 @@ function displayPlayerNames(){
     }
 }
 
-function showResults(){
-    for (let i = 0; i < playerList.length; i++){
+function showResults() {
+    for (let i = 0; i < playerList.length; i++) {
         const playerResults = document.createElement("p");
         const player = playerList[i];
         playerResults.classList.add("player-name-results");
@@ -130,7 +151,7 @@ function showResults(){
     }
 }
 
-function readyForNextRound(){
+function readyForNextRound() {
     removeContent()
     const nextRoundQuestion = document.createElement("h3")
     nextRoundQuestion.innerText = "Bereit für die nächste Runde?"
@@ -141,16 +162,16 @@ function readyForNextRound(){
     startButtonSection.appendChild(nextRoundButton)
 
     nextRoundButton.addEventListener("click", () => {
-        if (roundCounter < 8){
+        if (roundCounter < 8) {
             displayTask()
         } else {
             showResults()
         }
-        
+
     })
 }
 
-function goToLosingScreen(){
+function goToLosingScreen() {
     removeContent();
     removeSound("ticking-sound");
     createSound("explosion.mp3", "explosion-sound");
@@ -163,33 +184,33 @@ function goToLosingScreen(){
 }
 
 
-function startGame(){
-    if (playerList != 0){
+function startGame() {
+    if (playerList != 0) {
         let roundTime = fetchRoundTime()
         removeContent()
         displayTask()
         createSound("click-sound.mp3", "ticking-sound")
         setTimeout(() => {
-        goToLosingScreen()
+            goToLosingScreen()
         }, roundTime * 1000)
     }
-    
-    
+
+
 }
 
 
-addPlayerButton.addEventListener("click", () =>{
+addPlayerButton.addEventListener("click", () => {
     const pattern = /^[a-zA-Z0-9]+$/;
     playerDisplayTitle.remove()
     playerNameDisplay.style.display = "block"
-    const x  = playerNameInput.value
-    if (x.length < 2){
+    const x = playerNameInput.value
+    if (x.length < 2) {
         playerNameInput.value = ""
         playerNameInput.placeholder = "Bitte mindestens 2 Buchstaben verwenden"
-        playerNameInput.style.setProperty("--placeholder-color", "red"); 
-    } else if (!pattern.test(x)){
+        playerNameInput.style.setProperty("--placeholder-color", "red");
+    } else if (!pattern.test(x)) {
         playerNameInput.value = "";
-        playerNameInput.placeholder = "Bitte nur Buchstaben benutzen"; 
+        playerNameInput.placeholder = "Bitte nur Buchstaben benutzen";
         playerNameInput.style.setProperty("--placeholder-color", "red");
     } else if (x.length >= 20) {
         playerNameInput.value = "";
@@ -204,5 +225,5 @@ addPlayerButton.addEventListener("click", () =>{
 startButton.addEventListener("click", () => {
     startGame()
 
-    
+
 })
