@@ -1,6 +1,5 @@
 const addPlayerButton = document.getElementById("add-player-button")
 const playerInputDisplay = document.getElementById("player-input")
-const startButtonSection = document.getElementById("start-button-section")
 const playerNameInput = document.getElementById("player-name-input")
 const playerDisplayTitle = document.getElementById("player-name-display-title")
 const playerNameDisplay = document.getElementById("player-name-display")
@@ -79,7 +78,6 @@ function displayPlayer() {
 function removeContent() {
     startPlayerDisplay.innerHTML = ""
     playerInputDisplay.innerHTML = ""
-    startButtonSection.innerHTML = ""
 }
 
 function displayTask() {
@@ -90,23 +88,32 @@ function displayTask() {
     let taskDescription = document.createElement("h3")
     taskDescription.innerText = task
     taskDescription.classList.add("task-display")
+    taskDescription.style.textAlign = "center"
     startPlayerDisplay.style.display = "flex"
     startPlayerDisplay.style.justifyContent = "center"
     startPlayerDisplay.style.alignItems = "center"
     startPlayerDisplay.appendChild(taskDescription)
+
+    const skipButton = document.createElement("button")
+    skipButton.innerText = "Überspringen"
+    skipButton.addEventListener("click", () =>{
+        removeSound()
+        removeContent()
+        readyForNextRound()
+    })
+    playerInputDisplay.appendChild(skipButton)
+    
     setTimeout(() => {
-        if (roundCounter < 8) {
+        if (roundCounter < 100) {
             goToLosingScreen()
         } else {
             goToLosingScreen()
         }
     }, roundTime * 1000)
-    //  kommt statt den 1000 oben
+    
 }
 
 function createSound(sound, id) {
-    const existingAudio = document.getElementById(id);
-    if (!existingAudio) {
         const audio = document.createElement("audio");
         audio.id = id
         audio.src = `assets/sounds/${sound}`;
@@ -119,13 +126,13 @@ function createSound(sound, id) {
         }
         document.body.appendChild(audio);
         audio.play().catch(error => console.error("Error to play sound:", error));
-    }
 }
 
 function removeSound() {
     const existingAudio = document.getElementById("ticking-sound");
     existingAudio.remove();
 }
+
 
 function displayPlayerNames() {
     for (let i = 0; i < playerList.length; i++) {
@@ -170,18 +177,13 @@ function readyForNextRound() {
     startPlayerDisplay.appendChild(nextRoundButton)
 
     nextRoundButton.addEventListener("click", () => {
-        if (roundCounter < 8) {
             displayTask()
-        } else {
-            showResults()
-        }
-
     })
 }
 
 function goToLosingScreen() {
-    removeContent();
     removeSound("ticking-sound");
+    removeContent();
     createSound("explosion.mp3", "explosion-sound");
     const whoLostTitle = document.createElement("h2");
     whoLostTitle.innerText = "Wer hat verloren?";
