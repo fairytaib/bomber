@@ -49,9 +49,12 @@ function fetchTasks() {
 }
 
 function fetchRoundTime() {
-    const min = 20
-    const max = 50
-    return Math.floor(Math.random() * (max - min + 1)) + min
+    const min = 20;
+    const max = 40;
+    let roundTime = Math.floor(Math.random() * (max - min + 1)) + min;
+
+    // Ensure the roundTime is never less than min
+    return Math.max(roundTime, min);
 }
 
 function createPlayer(name) {
@@ -97,13 +100,13 @@ function displayTask() {
 
     const skipButton = document.createElement("button")
     skipButton.innerText = "Überspringen"
-    skipButton.addEventListener("click", () =>{
+    skipButton.addEventListener("click", () => {
         removeSound()
         removeContent()
         readyForNextRound()
     })
     playerInputDisplay.appendChild(skipButton)
-    
+
     setTimeout(() => {
         if (roundCounter < 100) {
             goToLosingScreen()
@@ -111,22 +114,22 @@ function displayTask() {
             goToLosingScreen()
         }
     }, roundTime * 1000)
-    
+
 }
 
 function createSound(sound, id) {
-        const audio = document.createElement("audio");
-        audio.id = id
-        audio.src = `assets/sounds/${sound}`;
-        audio.autoplay = true;
-        audio.volume = 0.25;
-        if (id === "ticking-sound") {
-            audio.loop = true;
-        } else {
-            audio.loop = false;
-        }
-        document.body.appendChild(audio);
-        audio.play().catch(error => console.error("Error to play sound:", error));
+    const audio = document.createElement("audio");
+    audio.id = id
+    audio.src = `assets/sounds/${sound}`;
+    audio.autoplay = true;
+    audio.volume = 0.25;
+    if (id === "ticking-sound") {
+        audio.loop = true;
+    } else {
+        audio.loop = false;
+    }
+    document.body.appendChild(audio);
+    audio.play().catch(error => console.error("Error to play sound:", error));
 }
 
 function removeSound() {
@@ -178,7 +181,7 @@ function readyForNextRound() {
     startPlayerDisplay.appendChild(nextRoundButton)
 
     nextRoundButton.addEventListener("click", () => {
-            displayTask()
+        displayTask()
     })
 }
 
